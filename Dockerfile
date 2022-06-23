@@ -30,7 +30,7 @@ COPY ts_log_listener.sh /ts_log_listener.sh
 COPY qbt_manager.sh /qbt_manager.sh
 COPY qbt_resume_torrents.sh /qbt_resume_torrents.sh
 
-export DEBIAN_FRONTEND=noninteractive \
+RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get update && apt-get upgrade -y \
 && apt-get install --no-install-recommends -y ca-certificates tzdata wget curl procps cron file jq unzip gnupg qbittorrent-nox binutils moreutils speedtest-cli dos2unix iproute2 \
 && strip --remove-section=.note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5 \
