@@ -4,8 +4,12 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      - 'config/*'
       - 'README.md'
+      - 'ts.ini'
+      - 'accs.db'
+      - 'config.db'
+      - 'qBittorrent.conf'
+      - 'LICENSE'
   pull_request:
     branches: [ main ]
 
