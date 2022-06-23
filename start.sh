@@ -16,7 +16,7 @@ tail -n 0 --retry --follow=name $TS_LOG &
 # Updates
 . /update.sh
 
-MY_IP=$(ip route | grep -E "default via" | cut -d ' ' -f 7)
+MY_IP=$(ip route get 8.8.8.8 | grep -o -E "src .+" | cut -d ' ' -f 2)
 
 # Start qBittorrent
 if [ "$QBT_ENABLED" == "true" ]; then
