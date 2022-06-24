@@ -7,7 +7,7 @@ fi
 if [ -s $TS_STAT ]; then
     
     # POST_AUTH="Cache-Control: no-cache" - it's just a dummy header instead of an authorization header
-    [ ! -z "$POST_AUTH" ] && POST_AUTH="Authorization:Basic $POST_AUTH" && POST_AUTH="Cache-Control: no-cache"
+    [ ! -z "$POST_AUTH" ] && POST_AUTH="Authorization:Basic $POST_AUTH" || POST_AUTH="Cache-Control: no-cache"
     
     QBT_TORRENTS_LIST=($(qbt torrent list -F json | grep -w "hash" | grep -o -E "[a-zA-Z0-9]{40}"))
 
