@@ -7,8 +7,18 @@ crontab -r
 # Start load configs
 . /config.sh
 
+echo "============================================="
+echo " "
 # Start monitoring TorrServer logfile
+echo "Start monitoring TorrServer logfile ..."
 tail -n 0 --retry --follow=name $TS_LOG &
+echo " "
+
+# Start monitoring qBittorrent logfile
+echo "Start monitoring qBittorrent logfile ..."
+tail -n 0 --retry --follow=name $TS_CONF_PATH/qBittorrent/data/logs/qbittorrent.log &
+echo " "
+echo "============================================="
 
 # Updates
 . /update.sh
@@ -30,7 +40,7 @@ if [ "$QBT_ENABLED" == "true" ]; then
     qbt settings set url http://localhost:$QBT_WEBUI_PORT
     echo " "
     echo "To access local qBittorrent web interface go to: http://$MY_IP:$QBT_WEBUI_PORT"
-    echo "Default login/password: admin / adminadmin"
+    echo "Default LOGIN / PASSWORD: admin / adminadmin"
     echo " "
     echo "============================================="
     echo "$(date): Starting TorrServer log listener ..."
