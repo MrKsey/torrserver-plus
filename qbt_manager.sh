@@ -5,8 +5,9 @@ if [ -s /TS/.config.env ]; then
 fi
 
 if [ -s $TS_STAT ]; then
-
-    [ ! -z "$POST_AUTH" ] && POST_AUTH="Authorization:Basic $POST_AUTH"
+    
+    # POST_AUTH="Cache-Control: no-cache" - it's just a dummy header instead of an authorization header
+    [ ! -z "$POST_AUTH" ] && POST_AUTH="Authorization:Basic $POST_AUTH" && POST_AUTH="Cache-Control: no-cache"
     
     QBT_TORRENTS_LIST=($(qbt torrent list -F json | grep -w "hash" | grep -o -E "[a-zA-Z0-9]{40}"))
 
@@ -37,7 +38,7 @@ EOF
             else
                 TORRENT_PROGRESS=0
             fi
-			if [ $TORRENT_PROGRESS -gt $QBT_DOWNLOAD_THRESHOLD ]; then
+            if [ $TORRENT_PROGRESS -gt $QBT_DOWNLOAD_THRESHOLD ]; then
                 [ "$QBT_ADD_PAUSED" == "true" ] && export QBT_TORRENT_OPT="--paused" || export QBT_TORRENT_OPT=""
                 qbt torrent add url $QBT_TORRENT_OPT "$(jq -r '."torrents"."'"$HASH"'"."url"' $TS_STAT)"
                 qbt torrent tracker add $HASH $QBT_LOCAL_TRACKER
