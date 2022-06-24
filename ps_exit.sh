@@ -7,7 +7,9 @@ echo " "
 echo "$(date): Graceful shutdown container ..."
 pkill -2 -f "^"qbittorrent-nox
 pkill -15 -f "^"/TS/TorrServer
+pkill -15 tail
+pkill -15 cron
+pkill -15 bash
 sync
-ps aux | grep -E "(qbittorrent-nox|/TS/TorrServer)" | grep -v "grep"
 echo " "
 echo "=================================================="
