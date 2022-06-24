@@ -43,4 +43,4 @@ docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stoppe
 -v /your/downloads/folder:/TS/db/torrents \
 ksey/torrserver-plus
 ```
-Remember to set up the appropriate write permitions for folder "/your/downloads/folder"
+Do not forget to configure the corresponding write permits for the folder "/your/downloads/folder"
