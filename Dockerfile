@@ -29,6 +29,7 @@ COPY update.sh /update.sh
 COPY ts_log_listener.sh /ts_log_listener.sh
 COPY qbt_manager.sh /qbt_manager.sh
 COPY qbt_resume_torrents.sh /qbt_resume_torrents.sh
+COPY ps_exit.sh /ps_exit.sh
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get update && apt-get upgrade -y \
@@ -39,8 +40,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 && mv qbittorrent-cli.list /etc/apt/sources.list.d/ \
 && apt-get update && apt-get install --no-install-recommends -y qbittorrent-cli \
 && apt-get clean \
-&& dos2unix /start.sh && dos2unix /config.sh && dos2unix /update.sh && dos2unix /ts_log_listener.sh && dos2unix /qbt_manager.sh && dos2unix /qbt_resume_torrents.sh \
-&& chmod +x /start.sh && chmod +x /config.sh && chmod +x /update.sh && chmod +x /ts_log_listener.sh && chmod +x /qbt_manager.sh && chmod +x /qbt_resume_torrents.sh \
+&& dos2unix /start.sh && dos2unix /config.sh && dos2unix /update.sh && dos2unix /ts_log_listener.sh && dos2unix /qbt_manager.sh && dos2unix /qbt_resume_torrents.sh && dos2unix /ps_exit.sh \
+&& chmod +x /start.sh && chmod +x /config.sh && chmod +x /update.sh && chmod +x /ts_log_listener.sh && chmod +x /qbt_manager.sh && chmod +x /qbt_resume_torrents.sh && chmod +x /ps_exit.sh \
 && mkdir -p /TS && chmod -R 666 /TS \
 && mkdir -p $TS_CONF_PATH && chmod -R 666 $TS_CONF_PATH \
 && export TS_URL=$TS_GIT_URL/$([ "$TS_RELEASE" != "latest" ] && echo tags/$TS_RELEASE || echo $TS_RELEASE) \
