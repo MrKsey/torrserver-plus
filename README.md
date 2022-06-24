@@ -32,9 +32,15 @@ Version without qBittorrent here - https://github.com/MrKsey/torrserver
 - сreate "/docker/torrserver-plus" directory (for example) on your host
 - run container (set correct time zone TZ):
 ```
-docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stopped --net=host -v /docker/torrserver-plus:/TS/db ksey/torrserver-plus
+docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stopped --net=host \
+-v /docker/torrserver-plus:/TS/db \
+ksey/torrserver-plus
 ```
 If you want to download torrents to another folder:
 ```
-docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stopped --net=host -v /docker/torrserver-plus:/TS/db -v /your/downloads/folder:/TS/db/torrents ksey/torrserver-plus
+docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stopped --net=host \
+-v /docker/torrserver-plus:/TS/db \
+-v /your/downloads/folder:/TS/db/torrents \
+ksey/torrserver-plus
 ```
+Remember to set up the appropriate write permitions for folder "/your/downloads/folder"
