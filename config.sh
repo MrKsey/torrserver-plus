@@ -23,9 +23,10 @@ fi
 
 if [ -s $TS_CONF_PATH/ts.ini ]; then
     chmod 666 $TS_CONF_PATH/ts.ini
+    dos2unix $TS_CONF_PATH/ts.ini
     # Load config from ts.ini
     echo "$(date): Load config from ts.ini"
-    sed -i -e "s/\r//g" $TS_CONF_PATH/ts.ini
+    #sed -i -e "s/\r//g" $TS_CONF_PATH/ts.ini
     . $TS_CONF_PATH/ts.ini && export $(grep --regexp ^[a-zA-Z] $TS_CONF_PATH/ts.ini | cut -d= -f1)
     echo "=================================================="
     echo "$(date): Configuration settings from ts.ini file:"
@@ -41,6 +42,7 @@ fi
 if [ ! -s $TS_CONF_PATH/accs.db ]; then
     wget -q --no-check-certificate --user-agent="$USER_AGENT" --content-disposition "$FILES_URL/accs.db" -O $TS_CONF_PATH/accs.db
     if [ -s $TS_CONF_PATH/accs.db ]; then
+        dos2unix $TS_CONF_PATH/accs.db
         echo " "
         echo "============================================="
         echo "$(date): File accs.db downloaded from the github."
@@ -70,6 +72,7 @@ if [ ! -s $TS_CONF_PATH/qBittorrent/config/qBittorrent.conf ]; then
     mkdir -p $TS_CONF_PATH/qBittorrent/config && chmod -R 666 $TS_CONF_PATH/qBittorrent/config
     wget -q --no-check-certificate --user-agent="$USER_AGENT" --content-disposition "$FILES_URL/qBittorrent.conf" -O $TS_CONF_PATH/qBittorrent/config/qBittorrent.conf
     if [ -s $TS_CONF_PATH/qBittorrent/config/qBittorrent.conf ]; then
+        dos2unix $TS_CONF_PATH/qBittorrent/config/qBittorrent.conf
         echo " "
         echo "============================================="
         echo "$(date): File qBittorrent.conf downloaded from the github."
@@ -308,8 +311,6 @@ fi
 # Save ENV VARS to file
 echo "$(date): Save ENV VARS to file"
 env | grep -v "_TASK" | awk 'NF {sub("=","=\"",$0); print ""$0"\""}' > /TS/.config.env && chmod 644 /TS/.config.env
-#env | grep -v "_TASK" | awk 'NF {sub("=","=\"",$0); print ""$0"\""}' | sed -E "s/=(.*) /=\'\1 /" | sed -E "s/ (.*)$/= \1\'/" > /TS/.config.env && chmod 644 /TS/.config.env
-# sed -i "s/\"\"/\"/g" /TS/.config.env && sed -i "s/=\"$/=\"\"/g" /TS/.config.env
 sed -i -E "s/=\"\"(.+)\"\"/=\"\1\"/g" /TS/.config.env
 
 # Fixing single qoute
