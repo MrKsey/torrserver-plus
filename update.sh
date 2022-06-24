@@ -249,6 +249,7 @@ if [ "$QBT_ENABLED" == "true" ] && [ "$QBT_RESTART" == "true" ]; then
     pkill -2 -f "^"qbittorrent-nox
     if [ $(pgrep qbittorrent-nox | wc -l) -eq 0 ]; then
         qbittorrent-nox -d --webui-port=$QBT_WEBUI_PORT --profile=$TS_CONF_PATH --save-path=$QBT_TORR_DIR
+        sleep 5
     fi
 fi
 
