@@ -10,6 +10,7 @@ Version without qBittorrent here - https://github.com/MrKsey/torrserver
 - automatic measurement of the Internet connection speed and setting up download/upload speed restrictions for the day and night in qBittorrent configuration
 - automatic adding a torrent for downloading if more than 30% of the torrent is viewed
 - seeding of viewed torrents
+- automatic adding a qBittorrent local retracker to TorrServer trackers list (to accelerate viewing torrents via TorrServer) 
 - flexible configuration using ts.ini
 - support x86-64, arm64 and armv7
 
