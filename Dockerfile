@@ -33,7 +33,7 @@ COPY qbt_resume_torrents.sh /qbt_resume_torrents.sh
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get update && apt-get upgrade -y \
 && apt-get install --no-install-recommends -y ca-certificates tzdata wget curl procps cron file jq unzip gnupg qbittorrent-nox binutils moreutils speedtest-cli dos2unix iproute2 \
-&& strip --remove-section=.note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5 \
+&& strip --remove-section=.note.ABI-tag $(ldconfig -p | grep "libQt5Core.so.5" | cut -d ' ' -f 4) \
 && wget -qO- 'https://dl.cloudsmith.io/public/qbittorrent-cli/qbittorrent-cli/gpg.F8756541ADDA2B7D.key' | apt-key add - \
 && wget -q 'https://repos.fedarovich.com/ubuntu/jammy/qbittorrent-cli.list' \
 && mv qbittorrent-cli.list /etc/apt/sources.list.d/ \
