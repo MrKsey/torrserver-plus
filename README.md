@@ -36,7 +36,7 @@ docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stoppe
 -v /docker/torrserver-plus:/TS/db \
 ksey/torrserver-plus
 ```
-If you want to download torrents to another folder:
+If you want to download torrents to another folder ("/your/downloads/folder"):
 ```
 docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stopped --net=host \
 -v /docker/torrserver-plus:/TS/db \
