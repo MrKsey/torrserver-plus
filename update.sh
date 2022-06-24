@@ -26,7 +26,7 @@ if [ "$OS_UPDATE" == "true" ]; then
         apt-get upgrade -y && apt-get purge -y -q --auto-remove
         TS_RESTART=true
         QBT_RESTART=true
-        strip --remove-section=.note.ABI-tag $(ldconfig -p | grep "libQt5Core.so.5" | cut -d ' ' -f 4)
+        strip --remove-section=.note.ABI-tag $(find /usr/. -name "libQt5Core.so.5")
     fi
     
     echo " "
@@ -60,7 +60,11 @@ if [ "$FFPROBE_UPDATE" == "true" ]; then
             echo "$(date): Error updating ffprobe from URL: $FFBINARIES"
         fi
     else
-        echo "$(date): ffprobe version $FFPROBE_LOCAL_VER is latest. Nothing to update."
+        if [ -z "$FFPROBE_REMOTE_VER" ]; then
+            echo "$(date): Error updating ffprobe from URL: $FFBINARIES"
+        else
+            echo "$(date): ffprobe version $FFPROBE_LOCAL_VER is latest. Nothing to update."
+        fi
     fi
     echo " "
     echo "$(date): Finished checking for ffprobe updates."
@@ -213,7 +217,11 @@ if [ ! -z "$TS_REMOTE_VER" ] && [ "$TS_LOCAL_VER" != "$TS_REMOTE_VER" ]; then
         echo " "
     fi
 else
-    echo "$(date): TorrServer version $TS_LOCAL_VER is latest. Nothing to update."
+    if [ -z "$TS_REMOTE_VER" ]; then
+        echo "$(date): Update TorrServer failed. Check update source url: $TS_URL"
+    else
+        echo "$(date): Local TorrServer version is $TS_LOCAL_VER. Nothing to update or re-download."
+    fi
     echo "=================================================="
     echo " "
 fi
@@ -237,8 +245,11 @@ if [ "$QBT_ENABLED" == "true" ] && [ "$QBT_RESTART" == "true" ]; then
     echo "=================================================="
     echo "$(date): Restarting qBittorrent after all updates ..."
     echo " "
-    pkill -f "^"qbittorrent-nox
-    qbittorrent-nox -d --webui-port=$QBT_WEBUI_PORT --profile=$TS_CONF_PATH --save-path=$QBT_TORR_DIR
+    sync
+    pkill -2 -f "^"qbittorrent-nox
+    if [ $(pgrep qbittorrent-nox | wc -l) -eq 0 ]; then
+        qbittorrent-nox -d --webui-port=$QBT_WEBUI_PORT --profile=$TS_CONF_PATH --save-path=$QBT_TORR_DIR
+    fi
 fi
 
 # Restarting TorrServer after all updates
@@ -247,13 +258,16 @@ if [ "$TS_RESTART" == "true" ]; then
     echo "=================================================="
     echo "$(date): Restarting TorrServer after all updates ..."
     echo " "
+    sync
+    pkill -15 -f "^"/TS/TorrServer
     
     # Reset list of monitoring hashes in TS_STAT file
     [ -s "$TS_STAT" ] && [ $(jq empty $TS_STAT > /dev/null 2>&1; echo $?) -eq 0 ] && jq '."monitor" = {}' $TS_STAT | sponge $TS_STAT
     
-    pkill -f "^"/TS/TorrServer
-    /TS/TorrServer --path=$TS_CONF_PATH --torrentsdir=$TS_CACHE_PATH --port=$TS_PORT --logpath $TS_LOG $TS_OPTIONS &
-    sleep 5
+    if [ $(pgrep TorrServer | wc -l) -eq 0 ]; then
+        /TS/TorrServer --path=$TS_CONF_PATH --torrentsdir=$TS_CACHE_PATH --port=$TS_PORT --logpath $TS_LOG $TS_OPTIONS &
+        sleep 5
+    fi
 fi
 
 echo " "
