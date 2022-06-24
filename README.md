@@ -4,11 +4,6 @@ Version without qBittorrent here - https://github.com/MrKsey/torrserver
 
 ![TorrServer Plus](https://raw.githubusercontent.com/MrKsey/torrserver-plus/master/ts.png)
 
-### More info:
-More info (only TorrServer):
-- https://github.com/YouROK/TorrServer
-- https://4pda.to/forum/index.php?showtopic=889960
-
 ### Key futures:
 - autoupdates OS, TorrServer, qBittorrent and ip blocklist
 - built-in torrent client qBittorrent
