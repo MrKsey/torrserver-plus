@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Trap signals for graceful shutdown container
+trap "/ps_exit.sh" 2 3 15
+
 # Stop cron
 crontab -r
 /etc/init.d/cron stop
