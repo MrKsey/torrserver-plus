@@ -14,7 +14,7 @@ Version without qBittorrent here - https://github.com/MrKsey/torrserver
 - flexible configuration using ts.ini
 - support x86-64, arm64 and armv7
 
-### defaults:
+### Defaults:
 - TorrServer WebUI: http://<your_server_ip>:8090
 - TorrServer automatic updates turned ON
 - qBittorrent enabled
