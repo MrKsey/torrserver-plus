@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Trap signals for graceful shutdown container
-trap "/ps_exit.sh" 2 3 15
+trap "/ps_exit.sh" SIGTERM
 
 # Stop cron
 crontab -r
