@@ -65,4 +65,4 @@ HEALTHCHECK --interval=5s --timeout=10s --retries=3 CMD curl -sS 127.0.0.1:$TS_P
 
 VOLUME [ "$TS_CONF_PATH" ]
 
-ENTRYPOINT ["/start.sh"]
+CMD ["/start.sh"]
