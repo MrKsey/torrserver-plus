@@ -66,4 +66,4 @@ echo " "
 echo "============================================="
 
 # endless work...
-tail -f /dev/null
+tail -f /dev/null & wait ${!}
