@@ -22,8 +22,8 @@ Version without qBittorrent here - https://github.com/MrKsey/torrserver
 - qBittorrent default login / password: admin / adminadmin
 - Automatic adding a torrent for downloading to qBittorrent if more than 30% of the torrent is viewed (loaded to TorrServer cache) 
 - Torrents are added to QBittorrent in a PAUSED state
-- Torrents resume loading at 2 a.m.
-ℹ See QBittorrent and TS.ini settings for additional parameters
+- Torrents resume loading at 2 a.m.  
+ℹ See QBittorrent and [ts.ini](https://github.com/MrKsey/torrserver-plus/blob/main/ts.ini) settings for additional parameters
 
 
 ### Installing
