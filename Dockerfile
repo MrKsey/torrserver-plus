@@ -32,7 +32,7 @@ COPY qbt_resume_torrents.sh /qbt_resume_torrents.sh
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get update && apt-get upgrade -y \
-&& apt-get install --no-install-recommends -y ca-certificates tzdata wget curl procps cron file jq unzip gnupg qbittorrent-nox binutils moreutils speedtest-cli dos2unix iproute2 \
+&& apt-get install --no-install-recommends -y ca-certificates tzdata wget curl procps cron file jq unzip gnupg qbittorrent-nox binutils moreutils speedtest-cli dos2unix iproute2 locales \
 && strip --remove-section=.note.ABI-tag $(find /usr/. -name "libQt5Core.so.5") \
 && wget -qO- 'https://dl.cloudsmith.io/public/qbittorrent-cli/qbittorrent-cli/gpg.F8756541ADDA2B7D.key' | apt-key add - \
 && wget -q 'https://repos.fedarovich.com/ubuntu/jammy/qbittorrent-cli.list' \
@@ -53,7 +53,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 && unzip -x -o /tmp/ffprobe.zip ffprobe -d /usr/local/bin \
 && chmod -R +x /usr/local/bin \
 && touch /var/log/cron.log \
-&& ln -sf /proc/1/fd/1 /var/log/cron.log
+&& ln -sf /proc/1/fd/1 /var/log/cron.log \
+&& locale-gen en_US.UTF-8
+
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 HEALTHCHECK --interval=5s --timeout=10s --retries=3 CMD curl -sS 127.0.0.1:$TS_PORT || exit 1
 
