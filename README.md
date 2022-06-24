@@ -34,7 +34,7 @@ Version without qBittorrent here - https://github.com/MrKsey/torrserver
 ```
 docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stopped --net=host -v /docker/torrserver-plus:/TS/db ksey/torrserver-plus
 ```
-If you want to download torrents to another folder, then run like this:
+If you want to download torrents to another folder:
 ```
 docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stopped --net=host -v /docker/torrserver-plus:/TS/db -v /your/downloads/folder:/TS/db/torrents ksey/torrserver-plus
 ```
