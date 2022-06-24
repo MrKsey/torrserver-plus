@@ -26,6 +26,7 @@ if [ "$OS_UPDATE" == "true" ]; then
         apt-get upgrade -y && apt-get purge -y -q --auto-remove
         TS_RESTART=true
         QBT_RESTART=true
+        strip --remove-section=.note.ABI-tag $(ldconfig -p | grep "libQt5Core.so.5" | cut -d ' ' -f 4)
     fi
     
     echo " "
