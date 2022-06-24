@@ -1,5 +1,5 @@
 # torrserver-plus
-This is unofficial docker image with latest versions TorrServer and qBittorrent.
+This is unofficial docker image with latest versions TorrServer and qBittorrent.  
 Version without qBittorrent here - https://github.com/MrKsey/torrserver
 
 ![TorrServer Plus](https://raw.githubusercontent.com/MrKsey/torrserver-plus/master/ts.png)
