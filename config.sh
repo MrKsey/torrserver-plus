@@ -285,7 +285,7 @@ if [ "$QBT_ENABLED" == "true" ]; then
         [ $QBT_RESUME_HOUR -gt 23 ] && export QBT_RESUME_HOUR=23
         sed -i "/^QBT_RESUME_HOUR=/{h;s/=.*/=${QBT_RESUME_HOUR}/};\${x;/^$/{s//QBT_RESUME_HOUR=${QBT_RESUME_HOUR}/;H};x}" $TS_CONF_PATH/ts.ini
         
-        export QBT_RESUME_TASK="\"\* $QBT_RESUME_HOUR \* \* \*\""
+        export QBT_RESUME_TASK="\"0 $QBT_RESUME_HOUR \* \* \*\""
         crontab -l | { cat; echo "$(echo "$QBT_RESUME_TASK" | sed 's/\\//g' | sed "s/\"//g") /qbt_resume_torrents.sh >> /var/log/cron.log 2>&1"; } | crontab -
     fi
     
