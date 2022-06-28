@@ -246,11 +246,20 @@ if [ "$QBT_ENABLED" == "true" ] && [ "$QBT_RESTART" == "true" ]; then
     echo "$(date): Restarting qBittorrent after all updates ..."
     echo " "
     sync
+    # Gracefull shutdown qBittorrent
+    TIMER=5
     pkill -2 -f "^"qbittorrent-nox
-    if [ $(pgrep qbittorrent-nox | wc -l) -eq 0 ]; then
-        qbittorrent-nox -d --webui-port=$QBT_WEBUI_PORT --profile=$TS_CONF_PATH --save-path=$QBT_TORR_DIR
-        sleep 5
-    fi
+    while [ $(pgrep qbittorrent-nox | wc -l) -gt 0 ]; do
+        if [ $TIMER -eq 0 ]; then
+            pkill -9 -f "^"qbittorrent-nox
+            break
+        else
+            TIMER=$(($TIMER - 1))
+            sleep 1
+        fi
+    done
+    qbittorrent-nox -d --webui-port=$QBT_WEBUI_PORT --profile=$TS_CONF_PATH --save-path=$QBT_TORR_DIR
+    sleep 5
 fi
 
 # Restarting TorrServer after all updates
@@ -260,15 +269,24 @@ if [ "$TS_RESTART" == "true" ]; then
     echo "$(date): Restarting TorrServer after all updates ..."
     echo " "
     sync
+    # Gracefull shutdown TorrServer
+    TIMER=5
     pkill -15 -f "^"/TS/TorrServer
+    while [ $(pgrep TorrServer | wc -l) -gt 0 ]; do
+        if [ $TIMER -eq 0 ]; then
+            pkill -9 -f "^"/TS/TorrServer
+            break
+        else
+            TIMER=$(($TIMER - 1))
+            sleep 1
+        fi
+    done
     
     # Reset list of monitoring hashes in TS_STAT file
     [ -s "$TS_STAT" ] && [ $(jq empty $TS_STAT > /dev/null 2>&1; echo $?) -eq 0 ] && jq '."monitor" = {}' $TS_STAT | sponge $TS_STAT
     
-    if [ $(pgrep TorrServer | wc -l) -eq 0 ]; then
-        /TS/TorrServer --path=$TS_CONF_PATH --torrentsdir=$TS_CACHE_PATH --port=$TS_PORT --logpath $TS_LOG $TS_OPTIONS &
-        sleep 5
-    fi
+    /TS/TorrServer --path=$TS_CONF_PATH --torrentsdir=$TS_CACHE_PATH --port=$TS_PORT --logpath $TS_LOG $TS_OPTIONS &
+    sleep 5
 fi
 
 echo " "
