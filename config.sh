@@ -101,6 +101,9 @@ TrackerEnabled=true
 [Core]
 AutoDeleteAddedTorrentFile=IfAdded
 
+[Network]
+PortForwardingEnabled=true
+
 [Preferences]
 Advanced\trackerPort=(QBT_TRACKER_PORT)
 Scheduler\days=EveryDay
