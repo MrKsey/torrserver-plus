@@ -30,10 +30,16 @@ COPY ts_log_listener.sh /ts_log_listener.sh
 COPY qbt_manager.sh /qbt_manager.sh
 COPY qbt_resume_torrents.sh /qbt_resume_torrents.sh
 COPY ps_exit.sh /ps_exit.sh
+COPY qBittorrent.conf /qBittorrent.conf
+COPY ts.ini /ts.ini
+COPY accs.db /accs.db
+COPY config.db /config.db
+
+
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get update && apt-get upgrade -y \
-&& apt-get install --no-install-recommends -y ca-certificates tzdata wget curl procps cron file jq unzip gnupg qbittorrent-nox binutils moreutils speedtest-cli dos2unix iproute2 locales \
+&& apt-get install --no-install-recommends -y ca-certificates tzdata wget curl procps cron file jq unzip gnupg qbittorrent-nox binutils moreutils speedtest-cli dos2unix iproute2 locales tzdata \
 && strip --remove-section=.note.ABI-tag $(find /usr/. -name "libQt5Core.so.5") \
 && wget -qO- 'https://dl.cloudsmith.io/public/qbittorrent-cli/qbittorrent-cli/gpg.F8756541ADDA2B7D.key' | apt-key add - \
 && wget -q 'https://repos.fedarovich.com/ubuntu/jammy/qbittorrent-cli.list' \
