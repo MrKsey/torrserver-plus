@@ -44,3 +44,33 @@ docker run --name torrserver-plus -e TZ=Europe/London -d --restart=unless-stoppe
 ksey/torrserver-plus
 ```
 Do not forget to configure the corresponding write permits for the folder "/your/downloads/folder"
+
+docker compose example: 
+```docker-compose
+version: "3"
+services:
+  torrserver-plus:
+    build:
+      context: .
+    container_name: "torrserver-plus"
+    restart: unless-stopped
+    environment:
+      TZ: "America/Montreal"
+      OS_UPDATE: true
+      FFPROBE_UPDATE: true
+      UPDATE_TASK: "20 4 * * *"
+      QBT_ENABLED: true
+      QBT_DOWNLOAD_THRESHOLD: 30
+      QBT_ADD_PAUSED: true
+      QBT_ADD_MORE_TRACKERS: true
+      QBT_RESUME_HOUR: 22
+      QBT_CHECKS_TIMER: 3
+      QBT_WEBUI_PORT: 8666
+    ports:
+      - "9666:8090"
+      - "8666:8666"
+    volumes:
+      - "./local/db:/TS/db"
+      - "./torrents:/TS/db/torrents"
+
+```
